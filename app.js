@@ -15,7 +15,8 @@ const lodePhone = async (searchText) => {
 };
 const displayPhone = (phones) => {
   const phoneContner = document.getElementById("display-phone");
-  phoneContner.innerHTML = "";
+  phoneContner.textContent = "";
+  phones = phones.slice(0, 18);
   phones.forEach((phone) => {
     const phoneDiv = document.createElement("div");
     phoneDiv.classList.add("col");
@@ -41,4 +42,3 @@ document.getElementById("Phone-Search-btn").addEventListener("click", () => {
   //   console.log(searchRasult);
   searchValue.value = "";
 });
-lodePhone("a");
