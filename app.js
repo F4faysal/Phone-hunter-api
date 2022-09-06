@@ -21,8 +21,8 @@ const displayPhone = (phones , dataLemit) => {
   //   only 18 phone shoiw
 
   const morButton  = document.getElementById("mor-buttom");
-  if (phones.length > dataLemit){
-    phones = phones.slice(0, dataLemit);
+  if (dataLemit && phones.length > 18){
+    phones = phones.slice(0, 18);
     morButton.classList.remove('d-none')
   }
   else{
@@ -49,6 +49,10 @@ const displayPhone = (phones , dataLemit) => {
             <p class="card-text">
                ${phone.brand}
             </p>
+            <button onclick="showDetalis('${phone.slug}')" href="#" class="btn btn-primary" data-bs-toggle="modal"
+            data-bs-target="#exampleModal">Show Detalis</button>
+
+          
         </div>
     </div>
     `;
@@ -84,3 +88,28 @@ document.getElementById("Phone-Search-btn").addEventListener("click", () => {
 document.getElementById('show-all').addEventListener('click', ()=>{
   processSerch();
 })
+
+const showDetalis = async id => {
+    const url =`https://openapi.programming-hero.com/api/phone/${id}`;
+    const res = await  fetch(url)
+    const data = await res.json();
+    displayPhoneDelalse(data.data)
+}
+
+const displayPhoneDelalse = (titel) => {
+  console.log(titel)
+  const modalTitel = document.getElementById('exampleModalLabel');
+  modalTitel.innerText = titel.name;
+
+  const detalce = document.getElementById('detalce');
+  detalce.innerHTML = `
+    <p>${titel.releaseDate ? titel.releaseDate : 'No releaseDate' }</p>
+    <p >${titel.mainFeatures.chipSet ? titel.mainFeatures.chipSet : 'not'}</p>
+    <p >${titel.mainFeatures.displaySize ? titel.mainFeatures.displaySize : 'not'}</p>
+    <p >${titel.mainFeatures.memory ? titel.mainFeatures.memory : 'memory not found' }</p>
+    <p >${titel.others.Bluetooth ? titel.others.Bluetooth : 'not found others'}</p>
+                
+
+  ` 
+}
+ 
